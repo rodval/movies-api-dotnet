@@ -8,6 +8,7 @@ namespace MoviesAPI.Models
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? User { get; set; }
+        public UserRoleType Role { get; set; }
     }
 
 }
