@@ -9,6 +9,7 @@ namespace MoviesAPI.Models
         public string? Name { get; set; }
         public string? User { get; set; }
         public UserRoleType Role { get; set; }
+        public ICollection<Movie>? LikedMovies { get; set; }
     }
 
 }
