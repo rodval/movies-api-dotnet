@@ -5,6 +5,7 @@ namespace MoviesAPI.Models
     {
         public int Id { get; set; }
         public string? Description { get; set; }
+        public ICollection<MovieImage>? Images { get; set; }
         public int Stock { get; set; }
         public double RentalPrice { get; set; }
         public double SalePrice { get; set; }
