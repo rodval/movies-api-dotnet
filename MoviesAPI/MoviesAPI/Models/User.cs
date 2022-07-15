@@ -1,6 +1,5 @@
 ﻿using System;
 using MoviesAPI.Utilities;
-using System.Text.Json.Serialization;
 
 namespace MoviesAPI.Models
 {
@@ -14,7 +13,6 @@ namespace MoviesAPI.Models
 
         public UserRoleType Role { get; set; }
 
-        [JsonIgnore]
         public ICollection<Movie>? LikedMovies { get; set; }
     }
 
