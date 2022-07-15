@@ -16,18 +16,12 @@ namespace MoviesAPI.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        public IEnumerable<Movie> GetAll()
-        {
-            return _service.GetAll();
-        }
-
         [HttpGet("{id}")]
         public ActionResult<Movie> GetById(int id)
         {
             var movie = _service.GetById(id);
 
-            if (movie is not null)
+            if(movie is not null)
             {
                 return movie;
             }
@@ -37,22 +31,37 @@ namespace MoviesAPI.Controllers
             }
         }
 
-
         [HttpPost]
-        public IActionResult Create(Movie newMovie)
+        public IActionResult Create(Movie newMovie, int userId)
         {
-            var movie = _service.Create(newMovie);
+            var movie = _service.Create(newMovie, userId);
             return CreatedAtAction(nameof(GetById), new { id = movie!.Id }, movie);
         }
 
-        [HttpPut("{id}/update")]
-        public IActionResult UpdateSauce(int id)
+        [HttpPut("{id}/updateMovie")]
+        public IActionResult UpdateMovie(Movie movieId, int userId)
         {
-            var movieToUpdate = _service.GetById(id);
+            var movieToUpdate = _service.GetById(movieId.Id);
 
             if (movieToUpdate is not null)
             {
-                _service.Update(id);
+                _service.UpdateById(movieId, userId);
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPut("{id}/removeMovie")]
+        public IActionResult RemoveMovie(int movieId, int userId, bool available)
+        {
+            var movieToUpdate = _service.GetById(movieId);
+
+            if (movieToUpdate is not null)
+            {
+                _service.RemoveById(movieId, userId, available);
                 return NoContent();
             }
             else
@@ -62,13 +71,13 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int movieId, int userId)
         {
-            var pizza = _service.GetById(id);
+            var movie = _service.GetById(movieId);
 
-            if (pizza is not null)
+            if(movie is not null)
             {
-                _service.DeleteById(id);
+                _service.DeleteById(movieId, userId);
                 return Ok();
             }
             else
@@ -78,4 +87,3 @@ namespace MoviesAPI.Controllers
         }
     }
 }
-
