@@ -14,6 +14,8 @@ namespace MoviesAPI.Models
         public UserRoleType Role { get; set; }
 
         public ICollection<Movie>? LikedMovies { get; set; }
+
+        public ICollection<MovieApproach>? Approaches { get; set; }
     }
 
 }

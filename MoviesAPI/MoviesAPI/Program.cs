@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<MovieService>();
 builder.Services.AddSqlite<MovieContext>("Data Source=RentalMovies.db");
 
 var app = builder.Build();

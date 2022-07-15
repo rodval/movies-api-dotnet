@@ -15,8 +15,9 @@ namespace MoviesAPI.Models
 
         public int NumberOfCopies { get; set; }
 
+        public User? User { get; set; }
 
-
+        public Movie? Movie { get; set; }
     }
 }
 
