@@ -17,7 +17,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPut("{id}/addlikedmovie")]
-        public IActionResult AddTopping(int id, int movieId)
+        public IActionResult Addlikedmovie(int id, int movieId)
         {
             var validUser = _service.GetById(id);
 

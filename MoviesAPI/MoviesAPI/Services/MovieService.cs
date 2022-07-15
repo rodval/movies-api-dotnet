@@ -9,24 +9,12 @@ namespace MoviesAPI.Services
     public class MovieService
     {
         private readonly MovieContext _context;
+        private readonly UserService _user;
 
         public MovieService(MovieContext context)
         {
             _context = context;
-        }
-
-        private User? CheckUser(int idUser, UserRoleType role)
-        {
-            var validUser = _context.Users
-                                    .AsNoTracking()
-                                    .SingleOrDefault(u => u.Id == idUser && u.Role == role);
-
-            if(validUser is null)
-            {
-                throw new InvalidOperationException(Erros.InvalidUser);
-            }
-
-            return validUser;
+            _user = new UserService(context);
         }
 
         public Movie? GetById(int id)
@@ -38,9 +26,9 @@ namespace MoviesAPI.Services
 
         public Movie? Create(Movie newMovie, int userId)
         {
-            var validUser = CheckUser(userId, UserRoleType.Admin);
+            var validUser = _user.CheckUser(userId, UserRoleType.Admin);
 
-            if(validUser is not null)
+            if(validUser)
             {
                 _context.Movies.Add(newMovie);
                 _context.SaveChanges();
@@ -55,9 +43,9 @@ namespace MoviesAPI.Services
         public void UpdateById(Movie modifyMovie, int userId)
         {
             var movieToUpdate = _context.Movies.Find(modifyMovie.Id);
-            var validUser = CheckUser(userId, UserRoleType.Admin);
+            var validUser = _user.CheckUser(userId, UserRoleType.Admin);
 
-            if (movieToUpdate is not null && validUser is not null)
+            if (movieToUpdate is not null && validUser)
             {
                 movieToUpdate = modifyMovie;
                 _context.SaveChanges();
@@ -69,9 +57,9 @@ namespace MoviesAPI.Services
         public void RemoveById(int MovieId, int userId, bool available)
         {
             var movieToRemove = _context.Movies.Find(MovieId);
-            var validUser = CheckUser(userId, UserRoleType.Admin);
+            var validUser = _user.CheckUser(userId, UserRoleType.Admin);
 
-            if (movieToRemove is not null && validUser is not null)
+            if (movieToRemove is not null && validUser)
             {
                 movieToRemove.Availability = available;
                 _context.SaveChanges();
@@ -83,9 +71,9 @@ namespace MoviesAPI.Services
         public void DeleteById(int MovieId, int userId)
         {
             var movieToDelete = _context.Movies.Find(MovieId);
-            var validUser = CheckUser(userId, UserRoleType.Admin);
+            var validUser = _user.CheckUser(userId, UserRoleType.Admin);
 
-            if (movieToDelete is not null && validUser is not null)
+            if (movieToDelete is not null && validUser)
             {
                 _context.Movies.Remove(movieToDelete);
                 _context.SaveChanges();

@@ -17,7 +17,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Movie> GetById(int id)
+        private ActionResult<Movie> GetById(int id)
         {
             var movie = _service.GetById(id);
 
@@ -41,9 +41,9 @@ namespace MoviesAPI.Controllers
         [HttpPut("{id}/updateMovie")]
         public IActionResult UpdateMovie(Movie movieId, int userId)
         {
-            var movieToUpdate = _service.GetById(movieId.Id);
+            var movie = _service.GetById(movieId.Id);
 
-            if (movieToUpdate is not null)
+            if (movie is not null)
             {
                 _service.UpdateById(movieId, userId);
                 return NoContent();
@@ -57,9 +57,9 @@ namespace MoviesAPI.Controllers
         [HttpPut("{id}/removeMovie")]
         public IActionResult RemoveMovie(int movieId, int userId, bool available)
         {
-            var movieToUpdate = _service.GetById(movieId);
+            var movie = _service.GetById(movieId);
 
-            if (movieToUpdate is not null)
+            if (movie is not null)
             {
                 _service.RemoveById(movieId, userId, available);
                 return NoContent();
