@@ -17,25 +17,40 @@ namespace MoviesAPI.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
 
+            modelBuilder.Entity("MovieMovieImage", b =>
+                {
+                    b.Property<int>("ImagesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MoviesId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ImagesId", "MoviesId");
+
+                    b.HasIndex("MoviesId");
+
+                    b.ToTable("MovieMovieImage");
+                });
+
             modelBuilder.Entity("MoviesAPI.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("Availability")
+                    b.Property<bool?>("Availability")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("RentalPrice")
+                    b.Property<double?>("RentalPrice")
                         .HasColumnType("REAL");
 
-                    b.Property<double>("SalePrice")
+                    b.Property<double?>("SalePrice")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("Stock")
+                    b.Property<int?>("Stock")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
@@ -61,7 +76,7 @@ namespace MoviesAPI.Migrations
                     b.Property<int?>("MovieId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("NumberOfCopies")
+                    b.Property<int?>("NumberOfCopies")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ReturnDate")
@@ -85,15 +100,10 @@ namespace MoviesAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("UrlImage")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
 
                     b.ToTable("MovieImages");
                 });
@@ -133,6 +143,21 @@ namespace MoviesAPI.Migrations
                     b.ToTable("MovieUser");
                 });
 
+            modelBuilder.Entity("MovieMovieImage", b =>
+                {
+                    b.HasOne("MoviesAPI.Models.MovieImage", null)
+                        .WithMany()
+                        .HasForeignKey("ImagesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoviesAPI.Models.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MoviesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MoviesAPI.Models.MovieApproach", b =>
                 {
                     b.HasOne("MoviesAPI.Models.Movie", "Movie")
@@ -148,15 +173,6 @@ namespace MoviesAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MoviesAPI.Models.MovieImage", b =>
-                {
-                    b.HasOne("MoviesAPI.Models.Movie", "Movie")
-                        .WithMany("Images")
-                        .HasForeignKey("MovieId");
-
-                    b.Navigation("Movie");
-                });
-
             modelBuilder.Entity("MovieUser", b =>
                 {
                     b.HasOne("MoviesAPI.Models.Movie", null)
@@ -170,11 +186,6 @@ namespace MoviesAPI.Migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("MoviesAPI.Models.Movie", b =>
-                {
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("MoviesAPI.Models.User", b =>

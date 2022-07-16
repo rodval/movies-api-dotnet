@@ -18,8 +18,9 @@ namespace MoviesAPI.Services
         public User? GetById(int id)
         {
             return _context.Users
+                .Include(u => u.LikedMovies)
                 .AsNoTracking()
-                .SingleOrDefault(p => p.Id == id);
+                .SingleOrDefault(u => u.Id == id);
         }
 
         public User? Create(User newUser)

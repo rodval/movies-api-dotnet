@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace MoviesAPI.Models
 {
@@ -8,7 +9,8 @@ namespace MoviesAPI.Models
         
         public string? UrlImage { get; set; }
 
-        public Movie? Movie { get; set; }
+        [JsonIgnore]
+        public ICollection<Movie>? Movies { get; set; }
     }
 }
 

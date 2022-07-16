@@ -13,7 +13,7 @@ namespace MoviesAPI.Models
 
         public string? ReturnDate { get; set; }
 
-        public int NumberOfCopies { get; set; }
+        public int? NumberOfCopies { get; set; }
 
         public User? User { get; set; }
 

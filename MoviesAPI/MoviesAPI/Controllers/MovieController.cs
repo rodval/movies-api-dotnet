@@ -16,6 +16,12 @@ namespace MoviesAPI.Controllers
             _service = service;
         }
 
+        [HttpGet("{title}/getbyname")]
+        public IEnumerable<Movie> GetByName(string title)
+        {
+            return _service.GetByName(title);
+        }
+
         [HttpGet("{id}")]
         public ActionResult<Movie> GetById(int id)
         {
@@ -38,6 +44,38 @@ namespace MoviesAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = movie!.Id }, movie);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Movie updateMovie)
+        {
+            var movieToUpdate = _service.GetById(id);
+
+            if (movieToUpdate is not null && updateMovie is not null)
+            {
+                _service.Update(id, updateMovie);
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var movie = _service.GetById(id);
+
+            if (movie is not null)
+            {
+                _service.Delete(id);
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpPut("{id}/addimage")]
         public IActionResult AddImage(int id, int imageId)
         {
@@ -46,6 +84,22 @@ namespace MoviesAPI.Controllers
             if (movieToUpdate is not null)
             {
                 _service.AddMovieImage(id, imageId);
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPut("{id}/removeimage")]
+        public IActionResult RemoveImage(int id, int imageId)
+        {
+            var movieToUpdate = _service.GetById(id);
+
+            if (movieToUpdate is not null)
+            {
+                _service.RemoveMovieImage(id, imageId);
                 return NoContent();
             }
             else

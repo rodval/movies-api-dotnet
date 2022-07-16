@@ -9,6 +9,19 @@ namespace MoviesAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "MovieImages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UrlImage = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieImages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Movies",
                 columns: table => new
                 {
@@ -16,10 +29,10 @@ namespace MoviesAPI.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
-                    Stock = table.Column<int>(type: "INTEGER", nullable: false),
-                    RentalPrice = table.Column<double>(type: "REAL", nullable: false),
-                    SalePrice = table.Column<double>(type: "REAL", nullable: false),
-                    Availability = table.Column<bool>(type: "INTEGER", nullable: false)
+                    Stock = table.Column<int>(type: "INTEGER", nullable: true),
+                    RentalPrice = table.Column<double>(type: "REAL", nullable: true),
+                    SalePrice = table.Column<double>(type: "REAL", nullable: true),
+                    Availability = table.Column<bool>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -42,22 +55,27 @@ namespace MoviesAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MovieImages",
+                name: "MovieMovieImage",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    UrlImage = table.Column<string>(type: "TEXT", nullable: true),
-                    MovieId = table.Column<int>(type: "INTEGER", nullable: true)
+                    ImagesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MoviesId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovieImages", x => x.Id);
+                    table.PrimaryKey("PK_MovieMovieImage", x => new { x.ImagesId, x.MoviesId });
                     table.ForeignKey(
-                        name: "FK_MovieImages_Movies_MovieId",
-                        column: x => x.MovieId,
+                        name: "FK_MovieMovieImage_MovieImages_ImagesId",
+                        column: x => x.ImagesId,
+                        principalTable: "MovieImages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MovieMovieImage_Movies_MoviesId",
+                        column: x => x.MoviesId,
                         principalTable: "Movies",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,7 +87,7 @@ namespace MoviesAPI.Migrations
                     Approach = table.Column<int>(type: "INTEGER", nullable: true),
                     ApproachDate = table.Column<string>(type: "TEXT", nullable: true),
                     ReturnDate = table.Column<string>(type: "TEXT", nullable: true),
-                    NumberOfCopies = table.Column<int>(type: "INTEGER", nullable: false),
+                    NumberOfCopies = table.Column<int>(type: "INTEGER", nullable: true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: true),
                     MovieId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
@@ -123,9 +141,9 @@ namespace MoviesAPI.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovieImages_MovieId",
-                table: "MovieImages",
-                column: "MovieId");
+                name: "IX_MovieMovieImage_MoviesId",
+                table: "MovieMovieImage",
+                column: "MoviesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MovieUser_UsersId",
@@ -139,10 +157,13 @@ namespace MoviesAPI.Migrations
                 name: "MovieApproaches");
 
             migrationBuilder.DropTable(
-                name: "MovieImages");
+                name: "MovieMovieImage");
 
             migrationBuilder.DropTable(
                 name: "MovieUser");
+
+            migrationBuilder.DropTable(
+                name: "MovieImages");
 
             migrationBuilder.DropTable(
                 name: "Movies");
