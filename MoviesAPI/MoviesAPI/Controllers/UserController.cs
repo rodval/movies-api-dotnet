@@ -16,21 +16,28 @@ namespace MoviesAPI.Controllers
             _service = service;
         }
 
-        [HttpPut("{id}/addlikedmovie")]
-        public IActionResult Addlikedmovie(int id, int movieId)
+        [HttpGet("{id}")]
+        public ActionResult<User> GetById(int id)
         {
-            var validUser = _service.GetById(id);
+            var user = _service.GetById(id);
 
-            if (validUser is not null)
+            if (user is not null)
             {
-                _service.AddLikedMovie(id, movieId);
-                return NoContent();
+                return user;
             }
             else
             {
                 return NotFound();
             }
         }
+
+        [HttpPost]
+        public IActionResult Create(User newUser)
+        {
+            var user = _service.Create(newUser);
+            return CreatedAtAction(nameof(GetById), new { id = user!.Id }, user);
+        }
+
     }
 }
 

@@ -15,48 +15,19 @@ namespace MoviesAPI.Services
             _context = context;
         }
 
-        public bool CheckUser(int idUser, UserRoleType role)
-        {
-            var validUser = _context.Users
-                                    .AsNoTracking()
-                                    .SingleOrDefault(u => u.Id == idUser && u.Role == role);
-
-            if(validUser is null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         public User? GetById(int id)
         {
             return _context.Users
-                            .AsNoTracking()
-                            .SingleOrDefault(p=> p.Id == id);
+                .AsNoTracking()
+                .SingleOrDefault(p => p.Id == id);
         }
 
-        public void AddLikedMovie(int UserId, int MovieId)
+        public User? Create(User newUser)
         {
-            var movieToAdd = _context.Movies
-                                        .AsNoTracking()
-                                        .SingleOrDefault(m => m.Id == MovieId && m.Availability);
-
-            var userToUpdate = _context.Users.Find(UserId);
-
-            if (userToUpdate is null || movieToAdd is null)
-            {
-                throw new InvalidOperationException(Erros.NotFound);
-            }
-
-            if(userToUpdate.LikedMovies is null)
-            {
-                userToUpdate.LikedMovies = new List<Movie>();
-            }
-
-            userToUpdate.LikedMovies.Add(movieToAdd);
-
+            _context.Users.Add(newUser);
             _context.SaveChanges();
+
+            return newUser;
         }
 
     }

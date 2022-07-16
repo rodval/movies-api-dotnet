@@ -19,12 +19,9 @@ namespace MoviesAPI.Models
 
         public bool Availability { get; set; }
 
-        public ICollection<MovieImage>? Images { get; set; }
-
-        public ICollection<MovieApproach>? Approaches { get; set; }
+        public ICollection<MovieImage>? Images { get; set; } 
 
         [JsonIgnore]
-        public ICollection<User>? Users { get; set; }
+        public ICollection<User>? Users { get; set; } 
     }
 }
-

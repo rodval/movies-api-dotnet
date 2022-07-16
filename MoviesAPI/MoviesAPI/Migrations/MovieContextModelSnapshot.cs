@@ -17,21 +17,6 @@ namespace MoviesAPI.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
 
-            modelBuilder.Entity("MovieMovieImage", b =>
-                {
-                    b.Property<int>("ImagesId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MoviesId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ImagesId", "MoviesId");
-
-                    b.HasIndex("MoviesId");
-
-                    b.ToTable("MovieMovieImage");
-                });
-
             modelBuilder.Entity("MoviesAPI.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
@@ -100,10 +85,15 @@ namespace MoviesAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("MovieId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("UrlImage")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.ToTable("MovieImages");
                 });
@@ -143,25 +133,10 @@ namespace MoviesAPI.Migrations
                     b.ToTable("MovieUser");
                 });
 
-            modelBuilder.Entity("MovieMovieImage", b =>
-                {
-                    b.HasOne("MoviesAPI.Models.MovieImage", null)
-                        .WithMany()
-                        .HasForeignKey("ImagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MoviesAPI.Models.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MoviesAPI.Models.MovieApproach", b =>
                 {
                     b.HasOne("MoviesAPI.Models.Movie", "Movie")
-                        .WithMany("Approaches")
+                        .WithMany()
                         .HasForeignKey("MovieId");
 
                     b.HasOne("MoviesAPI.Models.User", "User")
@@ -171,6 +146,15 @@ namespace MoviesAPI.Migrations
                     b.Navigation("Movie");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MoviesAPI.Models.MovieImage", b =>
+                {
+                    b.HasOne("MoviesAPI.Models.Movie", "Movie")
+                        .WithMany("Images")
+                        .HasForeignKey("MovieId");
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("MovieUser", b =>
@@ -190,7 +174,7 @@ namespace MoviesAPI.Migrations
 
             modelBuilder.Entity("MoviesAPI.Models.Movie", b =>
                 {
-                    b.Navigation("Approaches");
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("MoviesAPI.Models.User", b =>

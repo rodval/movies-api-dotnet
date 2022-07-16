@@ -3,8 +3,8 @@ namespace MoviesAPI.Utilities
 {
     public enum MovieApproachType
     {
-        Rental,
-        Purchase
+        Rental = 1,
+        Purchase = 2
     }
 }
 

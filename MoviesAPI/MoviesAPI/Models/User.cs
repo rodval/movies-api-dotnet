@@ -17,5 +17,4 @@ namespace MoviesAPI.Models
 
         public ICollection<MovieApproach>? Approaches { get; set; }
     }
-
 }

@@ -3,7 +3,7 @@ namespace MoviesAPI.Utilities
 {
     public enum UserRoleType
     {
-        Admin,
-        Client
+        Admin = 1,
+        Client = 2
     }
 }
