@@ -9,7 +9,7 @@ namespace MoviesAPI.Controllers
     [Route("[controller]")]
     public class MovieController : ControllerBase
     {
-        MovieService _service;
+        private readonly MovieService _service;
 
         public MovieController(MovieService service)
         {
@@ -38,5 +38,20 @@ namespace MoviesAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = movie!.Id }, movie);
         }
 
+        [HttpPut("{id}/addimage")]
+        public IActionResult AddImage(int id, int imageId)
+        {
+            var movieToUpdate = _service.GetById(id);
+
+            if (movieToUpdate is not null)
+            {
+                _service.AddMovieImage(id, imageId);
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

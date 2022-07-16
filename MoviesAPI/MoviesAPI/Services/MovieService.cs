@@ -30,5 +30,25 @@ namespace MoviesAPI.Services
             return newMovie;
         }
 
+        public void AddMovieImage(int MovieId, int MovieImageId)
+        {
+            var movieToUpdate = _context.Movies.Find(MovieId);
+            var imageToAdd = _context.MovieImages.Find(MovieImageId);
+
+            if (movieToUpdate is null || imageToAdd is null)
+            {
+                throw new InvalidOperationException(Erros.NotFound);
+            }
+
+            if (movieToUpdate.Images is null)
+            {
+                movieToUpdate.Images = new List<MovieImage>();
+            }
+
+            movieToUpdate.Images.Add(imageToAdd);
+
+            _context.SaveChanges();
+        }
+
     }
 }

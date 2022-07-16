@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<MovieService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<MovieImageService>();
 builder.Services.AddSqlite<MovieContext>("Data Source=RentalMovies.db");
 
 var app = builder.Build();

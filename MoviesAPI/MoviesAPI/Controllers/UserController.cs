@@ -9,7 +9,7 @@ namespace MoviesAPI.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        UserService _service;
+        private readonly UserService _service;
 
         public UserController(UserService service)
         {
