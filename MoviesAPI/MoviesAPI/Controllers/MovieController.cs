@@ -22,10 +22,10 @@ namespace MoviesAPI.Controllers
             return _service.GetByName(title);
         }
 
-        [HttpGet("{id}/getbyid")]
-        public ActionResult<Movie> GetById(int id)
+        [HttpGet("{movieId}/getbyid")]
+        public ActionResult<Movie> GetById(int movieId)
         {
-            var movie = _service.GetById(id);
+            var movie = _service.GetById(movieId);
 
             if (movie is not null)
             {
@@ -37,7 +37,7 @@ namespace MoviesAPI.Controllers
             }
         }
 
-        [HttpGet("{id}/{numberOfResults}")]
+        [HttpGet("{userId}/{numberOfResults}")]
         public IEnumerable<Movie> GetAllMovies(int userId, int numberOfResults, bool availability)
         {
             return _service.GetAllMovies(userId, numberOfResults, availability);
@@ -50,7 +50,7 @@ namespace MoviesAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = movie!.Id }, movie);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{userId}")]
         public IActionResult Update(int userId, Movie updateMovie)
         {
             var movieToUpdate = _service.GetById(updateMovie.Id);
@@ -66,14 +66,14 @@ namespace MoviesAPI.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int userId, int id)
+        [HttpDelete("{userId}")]
+        public IActionResult Delete(int userId, int movieId)
         {
-            var movie = _service.GetById(id);
+            var movie = _service.GetById(movieId);
 
             if (movie is not null)
             {
-                _service.Delete(userId, id);
+                _service.Delete(userId, movieId);
                 return Ok();
             }
             else
@@ -83,13 +83,13 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPut("{id}/addimage")]
-        public IActionResult AddImage(int userId, int id, int imageId)
+        public IActionResult AddImage(int userId, int movieId, int imageId)
         {
-            var movieToUpdate = _service.GetById(id);
+            var movieToUpdate = _service.GetById(movieId);
 
             if (movieToUpdate is not null)
             {
-                _service.AddMovieImage(userId, id, imageId);
+                _service.AddMovieImage(userId, movieId, imageId);
                 return NoContent();
             }
             else

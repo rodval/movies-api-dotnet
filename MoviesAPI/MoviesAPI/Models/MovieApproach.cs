@@ -22,10 +22,8 @@ namespace MoviesAPI.Models
         [Required]
         public MovieApproachStateType? State { get; set; }
 
-        [Required]
         public User? User { get; set; }
 
-        [Required]
         public Movie? Movie { get; set; }
     }
 }

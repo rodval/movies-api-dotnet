@@ -17,9 +17,9 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<User> GetById(int id)
+        public ActionResult<User> GetById(int userId)
         {
-            var user = _service.GetById(id);
+            var user = _service.GetById(userId);
 
             if (user is not null)
             {
@@ -38,14 +38,14 @@ namespace MoviesAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = user!.Id }, user);
         }
 
-        [HttpPut("{id}/likedmovie")]
-        public IActionResult LikedMovie(int id, int movieId)
+        [HttpPut("{userId}/likedmovie")]
+        public IActionResult LikedMovie(int userId, int movieId)
         {
-            var userToUpdate = _service.GetById(id);
+            var userToUpdate = _service.GetById(userId);
 
             if (userToUpdate is not null)
             {
-                _service.LikedMovie(id, movieId);
+                _service.LikedMovie(userId, movieId);
                 return NoContent();
             }
             else
@@ -55,13 +55,13 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPut("{id}/unlikedmovie")]
-        public IActionResult UnlikedMovie(int id, int movieId)
+        public IActionResult UnlikedMovie(int userId, int movieId)
         {
-            var userToUpdate = _service.GetById(id);
+            var userToUpdate = _service.GetById(userId);
 
             if (userToUpdate is not null)
             {
-                _service.UnlikedMovie(id, movieId);
+                _service.UnlikedMovie(userId, movieId);
                 return NoContent();
             }
             else

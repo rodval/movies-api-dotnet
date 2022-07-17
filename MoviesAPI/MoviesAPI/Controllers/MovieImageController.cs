@@ -16,10 +16,10 @@ namespace MoviesAPI.Controllers
             _service = service;
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<MovieImage> GetById(int id)
+        [HttpGet("{imageId}")]
+        public ActionResult<MovieImage> GetById(int imageId)
         {
-            var image = _service.GetById(id);
+            var image = _service.GetById(imageId);
 
             if (image is not null)
             {
@@ -38,14 +38,14 @@ namespace MoviesAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = image!.Id }, image);
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("{imageId}")]
+        public IActionResult Delete(int imageId)
         {
-            var image = _service.GetById(id);
+            var image = _service.GetById(imageId);
 
             if (image is not null)
             {
-                _service.Delete(id);
+                _service.Delete(imageId);
                 return Ok();
             }
             else

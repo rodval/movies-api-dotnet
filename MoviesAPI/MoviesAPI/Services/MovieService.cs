@@ -44,6 +44,7 @@ namespace MoviesAPI.Services
                                 .AsNoTracking()
                                 .Where(m => m.Availability == true)
                                 .ToList()
+
                                 .Take(numberOfResults);
             }
 
@@ -55,12 +56,12 @@ namespace MoviesAPI.Services
                                 .Take(numberOfResults);
         }
 
-        public Movie? GetById(int id)
+        public Movie? GetById(int movieId)
         {
             return _context.Movies
                             .Include(m => m.Images)
                             .AsNoTracking()
-                            .SingleOrDefault(m => m.Id == id);
+                            .SingleOrDefault(m => m.Id == movieId);
         }
 
         public IEnumerable<Movie> GetByName(string name)
@@ -114,7 +115,7 @@ namespace MoviesAPI.Services
             _context.SaveChanges();
         }
 
-        public void Delete(int userId, int id)
+        public void Delete(int userId, int movieId)
         {
             var validUser = ValidAdminUser(userId);
 
@@ -123,7 +124,7 @@ namespace MoviesAPI.Services
                 throw new InvalidOperationException(Erros.InvalidUser);
             }
 
-            var movieToDelete = _context.Movies.Find(id);
+            var movieToDelete = _context.Movies.Find(movieId);
             if (movieToDelete is not null)
             {
                 _context.Movies.Remove(movieToDelete);
