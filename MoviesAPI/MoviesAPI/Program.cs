@@ -1,4 +1,5 @@
 ﻿using MoviesAPI.Data;
+using MoviesAPI.Interfaces;
 using MoviesAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,9 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<MovieService>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<MovieImageService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMovieImageService, MovieImageService>();
+builder.Services.AddScoped<IMovieApproachService, MovieApproachService>();
+
 builder.Services.AddSqlite<MovieContext>("Data Source=RentalMovies.db");
 
 var app = builder.Build();
