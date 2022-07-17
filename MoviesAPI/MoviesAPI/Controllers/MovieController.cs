@@ -1,6 +1,6 @@
 ﻿using System;
-using MoviesAPI.Services;
 using MoviesAPI.Models;
+using MoviesAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MoviesAPI.Controllers
@@ -9,20 +9,20 @@ namespace MoviesAPI.Controllers
     [Route("[controller]")]
     public class MovieController : ControllerBase
     {
-        MovieService _service;
+        private readonly IMovieService _service;
 
-        public MovieController(MovieService service)
+        public MovieController(IMovieService service)
         {
             _service = service;
         }
 
-        [HttpGet]
-        public IEnumerable<Movie> GetAll()
+        [HttpGet("{title}/getbyname")]
+        public IEnumerable<Movie> GetByName(string title)
         {
-            return _service.GetAll();
+            return _service.GetByName(title);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/getbyid")]
         public ActionResult<Movie> GetById(int id)
         {
             var movie = _service.GetById(id);
@@ -37,22 +37,27 @@ namespace MoviesAPI.Controllers
             }
         }
 
-
-        [HttpPost]
-        public IActionResult Create(Movie newMovie)
+        [HttpGet("{id}/{numberOfResults}")]
+        public IEnumerable<Movie> GetAllMovies(int userId, int numberOfResults, bool availability)
         {
-            var movie = _service.Create(newMovie);
+            return _service.GetAllMovies(userId, numberOfResults, availability);
+        }
+
+        [HttpPost("{userId}")]
+        public IActionResult Create(int userId, Movie newMovie)
+        {
+            var movie = _service.Create(userId, newMovie);
             return CreatedAtAction(nameof(GetById), new { id = movie!.Id }, movie);
         }
 
-        [HttpPut("{id}/update")]
-        public IActionResult UpdateSauce(int id)
+        [HttpPut("{id}")]
+        public IActionResult Update(int userId, Movie updateMovie)
         {
-            var movieToUpdate = _service.GetById(id);
+            var movieToUpdate = _service.GetById(updateMovie.Id);
 
-            if (movieToUpdate is not null)
+            if (movieToUpdate is not null && updateMovie is not null)
             {
-                _service.Update(id);
+                _service.Update(userId, updateMovie);
                 return NoContent();
             }
             else
@@ -62,14 +67,30 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int userId, int id)
         {
-            var pizza = _service.GetById(id);
+            var movie = _service.GetById(id);
 
-            if (pizza is not null)
+            if (movie is not null)
             {
-                _service.DeleteById(id);
+                _service.Delete(userId, id);
                 return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPut("{id}/addimage")]
+        public IActionResult AddImage(int userId, int id, int imageId)
+        {
+            var movieToUpdate = _service.GetById(id);
+
+            if (movieToUpdate is not null)
+            {
+                _service.AddMovieImage(userId, id, imageId);
+                return NoContent();
             }
             else
             {
@@ -78,4 +99,3 @@ namespace MoviesAPI.Controllers
         }
     }
 }
-

@@ -1,6 +1,6 @@
 ﻿using System;
-using MoviesAPI.Services;
 using MoviesAPI.Models;
+using MoviesAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MoviesAPI.Controllers
@@ -9,21 +9,59 @@ namespace MoviesAPI.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        UserService _service;
+        private readonly IUserService _service;
 
-        public UserController(UserService service)
+        public UserController(IUserService service)
         {
             _service = service;
         }
 
-        [HttpPut("{id}/addlikedmovie")]
-        public IActionResult AddTopping(int id, int movieId)
+        [HttpGet("{id}")]
+        public ActionResult<User> GetById(int id)
         {
-            var validUser = _service.GetById(id);
+            var user = _service.GetById(id);
 
-            if (validUser is not null)
+            if (user is not null)
             {
-                _service.AddLikedMovie(id, movieId);
+                return user;
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Create(User newUser)
+        {
+            var user = _service.Create(newUser);
+            return CreatedAtAction(nameof(GetById), new { id = user!.Id }, user);
+        }
+
+        [HttpPut("{id}/likedmovie")]
+        public IActionResult LikedMovie(int id, int movieId)
+        {
+            var userToUpdate = _service.GetById(id);
+
+            if (userToUpdate is not null)
+            {
+                _service.LikedMovie(id, movieId);
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPut("{id}/unlikedmovie")]
+        public IActionResult UnlikedMovie(int id, int movieId)
+        {
+            var userToUpdate = _service.GetById(id);
+
+            if (userToUpdate is not null)
+            {
+                _service.UnlikedMovie(id, movieId);
                 return NoContent();
             }
             else

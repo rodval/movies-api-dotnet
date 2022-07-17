@@ -1,11 +1,21 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using MoviesAPI.Data;
+using MoviesAPI.Interfaces;
+using MoviesAPI.Services;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMovieImageService, MovieImageService>();
+builder.Services.AddScoped<IMovieApproachService, MovieApproachService>();
+
+builder.Services.AddSqlite<MovieContext>("Data Source=RentalMovies.db");
 
 var app = builder.Build();
 
