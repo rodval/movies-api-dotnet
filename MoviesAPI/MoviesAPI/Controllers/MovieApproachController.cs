@@ -16,7 +16,13 @@ namespace MoviesAPI.Controllers
             _service = service;
         }
 
-        [HttpGet("{approachId}/getbyid")]
+        [HttpGet("{userId}/getallappraches")]
+        public IEnumerable<MovieApproach> GetAllMovies(int userId)
+        {
+            return _service.GetAll(userId);
+        }
+
+        [HttpGet("{approachId}")]
         public ActionResult<MovieApproach> GetById(int approachId)
         {
             var movie = _service.GetById(approachId);
@@ -31,17 +37,11 @@ namespace MoviesAPI.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public IEnumerable<MovieApproach> GetAllMovies(int userId)
-        {
-            return _service.GetAll(userId);
-        }
-
         [HttpPost("{userId}/{movieId}")]
         public IActionResult Create(int userId, int movieId, MovieApproach newApproach)
         {
             var approach = _service.Create(userId, movieId, newApproach);
-            return CreatedAtAction(nameof(GetById), new { id = approach!.Id }, approach);
+            return CreatedAtAction(nameof(GetById), new { approachId = approach!.Id }, approach);
         }
 
         [HttpPut("{userId}")]

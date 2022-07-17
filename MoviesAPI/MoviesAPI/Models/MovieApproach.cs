@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using MoviesAPI.Utilities;
 
 namespace MoviesAPI.Models
@@ -22,8 +23,10 @@ namespace MoviesAPI.Models
         [Required]
         public MovieApproachStateType? State { get; set; }
 
+        [JsonIgnore]
         public User? User { get; set; }
 
+        [JsonIgnore]
         public Movie? Movie { get; set; }
     }
 }

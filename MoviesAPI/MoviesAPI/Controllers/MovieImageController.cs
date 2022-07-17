@@ -35,7 +35,7 @@ namespace MoviesAPI.Controllers
         public IActionResult Create(MovieImage newImage)
         {
             var image = _service.Create(newImage);
-            return CreatedAtAction(nameof(GetById), new { id = image!.Id }, image);
+            return CreatedAtAction(nameof(GetById), new { imageId = image!.Id }, image);
         }
 
         [HttpDelete("{imageId}")]

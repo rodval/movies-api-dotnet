@@ -16,7 +16,7 @@ namespace MoviesAPI.Controllers
             _service = service;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{userId}")]
         public ActionResult<User> GetById(int userId)
         {
             var user = _service.GetById(userId);
@@ -35,7 +35,7 @@ namespace MoviesAPI.Controllers
         public IActionResult Create(User newUser)
         {
             var user = _service.Create(newUser);
-            return CreatedAtAction(nameof(GetById), new { id = user!.Id }, user);
+            return CreatedAtAction(nameof(GetById), new { userId = user!.Id }, user);
         }
 
         [HttpPut("{userId}/likedmovie")]
@@ -54,7 +54,7 @@ namespace MoviesAPI.Controllers
             }
         }
 
-        [HttpPut("{id}/unlikedmovie")]
+        [HttpPut("{userId}/unlikedmovie")]
         public IActionResult UnlikedMovie(int userId, int movieId)
         {
             var userToUpdate = _service.GetById(userId);
