@@ -16,10 +16,10 @@ namespace MoviesAPI.Controllers
             _service = service;
         }
 
-        [HttpGet("{id}/getbyid")]
-        public ActionResult<MovieApproach> GetById(int id)
+        [HttpGet("{approachId}/getbyid")]
+        public ActionResult<MovieApproach> GetById(int approachId)
         {
-            var movie = _service.GetById(id);
+            var movie = _service.GetById(approachId);
 
             if (movie is not null)
             {
@@ -37,21 +37,21 @@ namespace MoviesAPI.Controllers
             return _service.GetAll(userId);
         }
 
-        [HttpPost]
-        public IActionResult Create(MovieApproach newMovie)
+        [HttpPost("{userId}/{movieId}")]
+        public IActionResult Create(int userId, int movieId, MovieApproach newApproach)
         {
-            var movie = _service.Create(newMovie);
-            return CreatedAtAction(nameof(GetById), new { id = movie!.Id }, movie);
+            var approach = _service.Create(userId, movieId, newApproach);
+            return CreatedAtAction(nameof(GetById), new { id = approach!.Id }, approach);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, MovieApproach updateMovie)
+        [HttpPut("{userId}")]
+        public IActionResult Update(MovieApproach updateApproach)
         {
-            var movieToUpdate = _service.GetById(id);
+            var movieToUpdate = _service.GetById(updateApproach.Id);
 
-            if (movieToUpdate is not null && updateMovie is not null)
+            if (movieToUpdate is not null && updateApproach is not null)
             {
-                _service.Update(id, updateMovie);
+                _service.Update(updateApproach);
                 return NoContent();
             }
             else

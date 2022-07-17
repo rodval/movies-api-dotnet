@@ -7,8 +7,8 @@ namespace MoviesAPI.Interfaces
     {
         public MovieApproach? GetById(int id);
         public IEnumerable<MovieApproach> GetAll(int id);
-        public MovieApproach? Create(MovieApproach newMovie);
-        public void Update(int id, MovieApproach updateMovie);
+        public MovieApproach? Create(int userId, int movieId, MovieApproach newMovie);
+        public void Update(MovieApproach updateMovie);
     }
 }
 

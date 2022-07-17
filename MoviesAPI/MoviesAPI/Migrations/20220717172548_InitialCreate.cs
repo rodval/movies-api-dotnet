@@ -89,8 +89,8 @@ namespace MoviesAPI.Migrations
                     ReturnDate = table.Column<string>(type: "TEXT", nullable: true),
                     NumberOfCopies = table.Column<int>(type: "INTEGER", nullable: false),
                     State = table.Column<int>(type: "INTEGER", nullable: false),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    MovieId = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
+                    MovieId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -99,14 +99,12 @@ namespace MoviesAPI.Migrations
                         name: "FK_MovieApproaches_Movies_MovieId",
                         column: x => x.MovieId,
                         principalTable: "Movies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_MovieApproaches_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

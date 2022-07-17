@@ -15,11 +15,11 @@ namespace MoviesAPI.Services
             _context = context;
         }
 
-        public MovieImage? GetById(int id)
+        public MovieImage? GetById(int imageId)
         {
             return _context.MovieImages
                 .AsNoTracking()
-                .SingleOrDefault(p => p.Id == id);
+                .SingleOrDefault(p => p.Id == imageId);
         }
 
         public MovieImage? Create(MovieImage newMovieImage)
@@ -30,9 +30,9 @@ namespace MoviesAPI.Services
             return newMovieImage;
         }
 
-        public void Delete(int id)
+        public void Delete(int imageId)
         {
-            var imageToDelete = _context.MovieImages.Find(id);
+            var imageToDelete = _context.MovieImages.Find(imageId);
             if (imageToDelete is not null)
             {
                 _context.MovieImages.Remove(imageToDelete);

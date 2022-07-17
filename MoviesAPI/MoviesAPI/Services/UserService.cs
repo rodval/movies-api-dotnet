@@ -16,12 +16,12 @@ namespace MoviesAPI.Services
             _context = context;
         }
 
-        public User? GetById(int id)
+        public User? GetById(int userId)
         {
             return _context.Users
                 .Include(u => u.LikedMovies)
                 .AsNoTracking()
-                .SingleOrDefault(u => u.Id == id);
+                .SingleOrDefault(u => u.Id == userId);
         }
 
         public User? Create(User newUser)

@@ -32,25 +32,35 @@ namespace MoviesAPI.Services
                             .ToList();
         }
 
-        public MovieApproach? Create(MovieApproach newMovie)
+        public MovieApproach? Create(int userId, int movieId, MovieApproach newApproach)
         {
-            _context.MovieApproaches.Add(newMovie);
-            _context.SaveChanges();
+            var movieToAdd = _context.Movies.Find(movieId);
+            var userToAdd = _context.Users.Find(userId);
 
-            return newMovie;
-        }
-
-        public void Update(int id, MovieApproach updateMovie)
-        {
-            var movieToUpdate = _context.MovieApproaches.Find(id);
-
-            if (movieToUpdate is null)
+            if (movieToAdd is null || userToAdd is null)
             {
                 throw new InvalidOperationException(Erros.NotFound);
             }
 
-            movieToUpdate.State = (updateMovie.State is not null) ? updateMovie.State : movieToUpdate.State;
-            movieToUpdate.ReturnDate = (updateMovie.ReturnDate is not null) ? updateMovie.ReturnDate : movieToUpdate.ReturnDate;
+            newApproach.User = userToAdd;
+            newApproach.Movie = movieToAdd;
+
+            _context.MovieApproaches.Add(newApproach);
+            _context.SaveChanges();
+            return newApproach;
+        }
+
+        public void Update(MovieApproach updateApproach)
+        {
+            var approachToUpdate = _context.MovieApproaches.Find(updateApproach.Id);
+
+            if (approachToUpdate is null)
+            {
+                throw new InvalidOperationException(Erros.NotFound);
+            }
+
+            approachToUpdate.State = (updateApproach.State is not null) ? updateApproach.State : approachToUpdate.State;
+            approachToUpdate.ReturnDate = (updateApproach.ReturnDate is not null) ? updateApproach.ReturnDate : approachToUpdate.ReturnDate;
 
             _context.SaveChanges();
         }
