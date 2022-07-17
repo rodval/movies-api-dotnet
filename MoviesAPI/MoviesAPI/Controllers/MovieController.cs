@@ -1,6 +1,6 @@
 ﻿using System;
-using MoviesAPI.Services;
 using MoviesAPI.Models;
+using MoviesAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MoviesAPI.Controllers

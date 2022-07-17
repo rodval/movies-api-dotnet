@@ -1,6 +1,6 @@
 using System;
-using MoviesAPI.Services;
 using MoviesAPI.Models;
+using MoviesAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MoviesAPI.Controllers
@@ -9,9 +9,9 @@ namespace MoviesAPI.Controllers
     [Route("[controller]")]
     public class MovieApproachController : ControllerBase
     {
-        private readonly MovieApproachService _service;
+        private readonly IMovieApproachService _service;
 
-        public MovieApproachController(MovieApproachService service)
+        public MovieApproachController(IMovieApproachService service)
         {
             _service = service;
         }

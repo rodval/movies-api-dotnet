@@ -2,11 +2,12 @@ using System;
 using MoviesAPI.Models;
 using MoviesAPI.Data;
 using MoviesAPI.Utilities;
+using MoviesAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace MoviesAPI.Services
 {
-    public class MovieApproachService
+    public class MovieApproachService : IMovieApproachService
     {
         private readonly MovieContext _context;
 

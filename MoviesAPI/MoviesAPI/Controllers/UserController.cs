@@ -1,6 +1,6 @@
 ﻿using System;
-using MoviesAPI.Services;
 using MoviesAPI.Models;
+using MoviesAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MoviesAPI.Controllers
@@ -9,9 +9,9 @@ namespace MoviesAPI.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly UserService _service;
+        private readonly IUserService _service;
 
-        public UserController(UserService service)
+        public UserController(IUserService service)
         {
             _service = service;
         }
