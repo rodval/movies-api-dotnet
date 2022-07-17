@@ -16,7 +16,7 @@ namespace MoviesAPI.Services
             _context = context;
         }
 
-        public IEnumerable<Movie> GetAllMovies(int id, int numberOfResults, bool availability)
+        private bool ValidAdminUser(int id)
         {
             var user = _context.Users.Find(id);
 
@@ -26,6 +26,18 @@ namespace MoviesAPI.Services
             }
 
             if (user.Role == UserRoleType.Client)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public IEnumerable<Movie> GetAllMovies(int userId, int numberOfResults, bool availability)
+        {
+            var validUser = ValidAdminUser(userId);
+
+            if (!validUser)
             {
                 return _context.Movies
                                 .Include(m => m.Images)
@@ -60,17 +72,31 @@ namespace MoviesAPI.Services
                             .ToList();
         }
 
-        public Movie? Create(Movie newMovie)
+        public Movie? Create(int userId, Movie newMovie)
         {
+            var validUser = ValidAdminUser(userId);
+
+            if (!validUser)
+            {
+                throw new InvalidOperationException(Erros.InvalidUser);
+            }
+
             _context.Movies.Add(newMovie);
             _context.SaveChanges();
 
             return newMovie;
         }
 
-        public void Update(int id, Movie updateMovie)
+        public void Update(int userId, Movie updateMovie)
         {
-            var movieToUpdate = _context.Movies.Find(id);
+            var validUser = ValidAdminUser(userId);
+
+            if (!validUser)
+            {
+                throw new InvalidOperationException(Erros.InvalidUser);
+            }
+
+            var movieToUpdate = _context.Movies.Find(updateMovie.Id);
 
             if (movieToUpdate is null)
             {
@@ -88,8 +114,15 @@ namespace MoviesAPI.Services
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(int userId, int id)
         {
+            var validUser = ValidAdminUser(userId);
+
+            if (!validUser)
+            {
+                throw new InvalidOperationException(Erros.InvalidUser);
+            }
+
             var movieToDelete = _context.Movies.Find(id);
             if (movieToDelete is not null)
             {
@@ -98,7 +131,7 @@ namespace MoviesAPI.Services
             }
         }
 
-        public void AddMovieImage(int MovieId, int MovieImageId)
+        public void AddMovieImage(int userId, int MovieId, int MovieImageId)
         {
             var movieToUpdate = _context.Movies.Find(MovieId);
             var imageToAdd = _context.MovieImages.Find(MovieImageId);
