@@ -30,5 +30,14 @@ namespace MoviesAPI.Services
             return newMovieImage;
         }
 
+        public void Delete(int id)
+        {
+            var imageToDelete = _context.MovieImages.Find(id);
+            if (imageToDelete is not null)
+            {
+                _context.MovieImages.Remove(imageToDelete);
+                _context.SaveChanges();
+            }
+        }
     }
 }

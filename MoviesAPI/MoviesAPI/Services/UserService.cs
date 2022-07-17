@@ -31,6 +31,45 @@ namespace MoviesAPI.Services
             return newUser;
         }
 
+        public void LikedMovie(int UserId, int MovieId)
+        {
+            var userToUpdate = _context.Users.Find(UserId);
+            var movieToAdd = _context.Movies.Find(MovieId);
+
+            if (userToUpdate is null || movieToAdd is null)
+            {
+                throw new InvalidOperationException(Erros.NotFound);
+            }
+
+            if (userToUpdate.LikedMovies is null)
+            {
+                userToUpdate.LikedMovies = new List<Movie>();
+            }
+
+            userToUpdate.LikedMovies.Add(movieToAdd);
+
+            _context.SaveChanges();
+        }
+
+        public void UnlikedMovie(int UserId, int MovieId)
+        {
+            var userToUpdate = _context.Users.Find(UserId);
+            var movieToAdd = _context.Movies.Find(MovieId);
+
+            if (userToUpdate is null || movieToAdd is null)
+            {
+                throw new InvalidOperationException(Erros.NotFound);
+            }
+
+            if (userToUpdate.LikedMovies is null)
+            {
+                userToUpdate.LikedMovies = new List<Movie>();
+            }
+
+            userToUpdate.LikedMovies.Remove(movieToAdd);
+
+            _context.SaveChanges();
+        }
     }
 }
 

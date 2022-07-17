@@ -13,12 +13,14 @@ namespace MoviesAPI.Models
 
         public string? Description { get; set; }
 
+        [Required]
         public int? Stock { get; set; }
 
         public double? RentalPrice { get; set; }
 
         public double? SalePrice { get; set; }
 
+        [Required]
         public bool? Availability { get; set; }
 
         public ICollection<MovieImage>? Images { get; set; } 

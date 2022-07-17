@@ -38,5 +38,20 @@ namespace MoviesAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = image!.Id }, image);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var image = _service.GetById(id);
+
+            if (image is not null)
+            {
+                _service.Delete(id);
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

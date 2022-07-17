@@ -38,6 +38,37 @@ namespace MoviesAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = user!.Id }, user);
         }
 
+        [HttpPut("{id}/likedmovie")]
+        public IActionResult LikedMovie(int id, int movieId)
+        {
+            var userToUpdate = _service.GetById(id);
+
+            if (userToUpdate is not null)
+            {
+                _service.LikedMovie(id, movieId);
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPut("{id}/unlikedmovie")]
+        public IActionResult UnlikedMovie(int id, int movieId)
+        {
+            var userToUpdate = _service.GetById(id);
+
+            if (userToUpdate is not null)
+            {
+                _service.UnlikedMovie(id, movieId);
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }
 

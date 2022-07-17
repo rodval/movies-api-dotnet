@@ -39,6 +39,7 @@ namespace MoviesAPI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool?>("Availability")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -51,9 +52,11 @@ namespace MoviesAPI.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<int?>("Stock")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -67,22 +70,27 @@ namespace MoviesAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Approach")
+                    b.Property<int>("Approach")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ApproachDate")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("MovieId")
+                    b.Property<int>("MovieId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("NumberOfCopies")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ReturnDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("State")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -115,6 +123,7 @@ namespace MoviesAPI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Role")
@@ -162,11 +171,15 @@ namespace MoviesAPI.Migrations
                 {
                     b.HasOne("MoviesAPI.Models.Movie", "Movie")
                         .WithMany()
-                        .HasForeignKey("MovieId");
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MoviesAPI.Models.User", "User")
                         .WithMany("Approaches")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Movie");
 

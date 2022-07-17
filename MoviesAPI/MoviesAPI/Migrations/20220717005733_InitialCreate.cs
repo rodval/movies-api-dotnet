@@ -27,12 +27,12 @@ namespace MoviesAPI.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
-                    Stock = table.Column<int>(type: "INTEGER", nullable: true),
+                    Stock = table.Column<int>(type: "INTEGER", nullable: false),
                     RentalPrice = table.Column<double>(type: "REAL", nullable: true),
                     SalePrice = table.Column<double>(type: "REAL", nullable: true),
-                    Availability = table.Column<bool>(type: "INTEGER", nullable: true)
+                    Availability = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +45,7 @@ namespace MoviesAPI.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", nullable: true),
                     Role = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -84,12 +84,13 @@ namespace MoviesAPI.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Approach = table.Column<int>(type: "INTEGER", nullable: true),
-                    ApproachDate = table.Column<string>(type: "TEXT", nullable: true),
+                    Approach = table.Column<int>(type: "INTEGER", nullable: false),
+                    ApproachDate = table.Column<string>(type: "TEXT", nullable: false),
                     ReturnDate = table.Column<string>(type: "TEXT", nullable: true),
-                    NumberOfCopies = table.Column<int>(type: "INTEGER", nullable: true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
-                    MovieId = table.Column<int>(type: "INTEGER", nullable: true)
+                    NumberOfCopies = table.Column<int>(type: "INTEGER", nullable: false),
+                    State = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MovieId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,12 +99,14 @@ namespace MoviesAPI.Migrations
                         name: "FK_MovieApproaches_Movies_MovieId",
                         column: x => x.MovieId,
                         principalTable: "Movies",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MovieApproaches_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

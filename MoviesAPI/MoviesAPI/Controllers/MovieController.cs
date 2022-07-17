@@ -9,9 +9,9 @@ namespace MoviesAPI.Controllers
     [Route("[controller]")]
     public class MovieController : ControllerBase
     {
-        private readonly MovieService _service;
+        private readonly IMovieService _service;
 
-        public MovieController(MovieService service)
+        public MovieController(IMovieService service)
         {
             _service = service;
         }
@@ -22,7 +22,7 @@ namespace MoviesAPI.Controllers
             return _service.GetByName(title);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/getbyid")]
         public ActionResult<Movie> GetById(int id)
         {
             var movie = _service.GetById(id);
@@ -35,6 +35,12 @@ namespace MoviesAPI.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpGet("{id}/{numberOfResults}")]
+        public IEnumerable<Movie> GetAllMovies(int id, int numberOfResults, bool availability)
+        {
+            return _service.GetAllMovies(id, numberOfResults, availability);
         }
 
         [HttpPost]
@@ -84,22 +90,6 @@ namespace MoviesAPI.Controllers
             if (movieToUpdate is not null)
             {
                 _service.AddMovieImage(id, imageId);
-                return NoContent();
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
-        [HttpPut("{id}/removeimage")]
-        public IActionResult RemoveImage(int id, int imageId)
-        {
-            var movieToUpdate = _service.GetById(id);
-
-            if (movieToUpdate is not null)
-            {
-                _service.RemoveMovieImage(id, imageId);
                 return NoContent();
             }
             else

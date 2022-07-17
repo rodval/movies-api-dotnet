@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MoviesAPI.Services
 {
-    public class MovieService
+    public class MovieService : IMovieService
     {
         private readonly MovieContext _context;
 
@@ -15,21 +15,48 @@ namespace MoviesAPI.Services
             _context = context;
         }
 
+        public IEnumerable<Movie> GetAllMovies(int id, int numberOfResults, bool availability)
+        {
+            var user = _context.Users.Find(id);
+
+            if (user is null)
+            {
+                throw new InvalidOperationException(Erros.NotFound);
+            }
+
+            if (user.Role == UserRoleType.Client)
+            {
+                return _context.Movies
+                                .Include(m => m.Images)
+                                .AsNoTracking()
+                                .Where(m => m.Availability == true)
+                                .ToList()
+                                .Take(numberOfResults);
+            }
+
+            return _context.Movies
+                                .Include(m => m.Images)
+                                .AsNoTracking()
+                                .Where(m => m.Availability == availability)
+                                .ToList()
+                                .Take(numberOfResults);
+        }
+
         public Movie? GetById(int id)
         {
             return _context.Movies
-                .Include(m => m.Images)
-                .AsNoTracking()
-                .SingleOrDefault(m => m.Id == id);
+                            .Include(m => m.Images)
+                            .AsNoTracking()
+                            .SingleOrDefault(m => m.Id == id);
         }
 
         public IEnumerable<Movie> GetByName(string name)
         {
             return _context.Movies
-                .Include(m => m.Images)
-                .AsNoTracking()
-                .Where(m => m.Title.ToLower().Contains(name))
-                .ToList();
+                            .Include(m => m.Images)
+                            .AsNoTracking()
+                            .Where(m => m.Title.ToLower().Contains(name))
+                            .ToList();
         }
 
         public Movie? Create(Movie newMovie)
@@ -89,26 +116,5 @@ namespace MoviesAPI.Services
 
             _context.SaveChanges();
         }
-
-        public void RemoveMovieImage(int MovieId, int MovieImageId)
-        {
-            var movieToUpdate = _context.Movies.Find(MovieId);
-            var imageToRemove = _context.MovieImages.Find(MovieImageId);
-
-            if (movieToUpdate is null || imageToRemove is null)
-            {
-                throw new InvalidOperationException(Erros.NotFound);
-            }
-
-            if (movieToUpdate.Images is null)
-            {
-                movieToUpdate.Images = new List<MovieImage>();
-            }
-
-            movieToUpdate.Images.Remove(imageToRemove);
-
-            _context.SaveChanges();
-        }
-
     }
 }
