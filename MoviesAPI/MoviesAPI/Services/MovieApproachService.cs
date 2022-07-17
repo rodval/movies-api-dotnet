@@ -23,12 +23,19 @@ namespace MoviesAPI.Services
                             .SingleOrDefault(m => m.Id == id);
         }
 
-        public IEnumerable<MovieApproach> GetAll(int id)
+        public IEnumerable<MovieApproach> GetAll(int userId)
         {
+            var user = _context.Users.Find(userId);
+
+            if (user is null)
+            {
+                throw new InvalidOperationException(Erros.NotFound);
+            }
+
             return _context.MovieApproaches
                             .Include(m => m.Movie)
                             .AsNoTracking()
-                            .Where(m => m.User.Id == id)
+                            .Where(m => m.User == user)
                             .ToList();
         }
 
@@ -41,9 +48,18 @@ namespace MoviesAPI.Services
             {
                 throw new InvalidOperationException(Erros.NotFound);
             }
+            else if (movieToAdd.Stock < newApproach.NumberOfCopies)
+            {
+                throw new InvalidOperationException(Erros.NotEnoughStock);
+            }
+            else if (movieToAdd.Availability == false || movieToAdd.Availability is null)
+            {
+                throw new InvalidOperationException(Erros.NotEnoughStock);
+            }
 
-            newApproach.User = userToAdd;
+            movieToAdd.Stock -= newApproach.NumberOfCopies;
             newApproach.Movie = movieToAdd;
+            newApproach.User = userToAdd;
 
             _context.MovieApproaches.Add(newApproach);
             _context.SaveChanges();

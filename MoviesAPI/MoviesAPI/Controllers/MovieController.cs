@@ -22,7 +22,7 @@ namespace MoviesAPI.Controllers
             return _service.GetByName(title);
         }
 
-        [HttpGet("{movieId}/getbyid")]
+        [HttpGet("{movieId}")]
         public ActionResult<Movie> GetById(int movieId)
         {
             var movie = _service.GetById(movieId);
@@ -47,7 +47,7 @@ namespace MoviesAPI.Controllers
         public IActionResult Create(int userId, Movie newMovie)
         {
             var movie = _service.Create(userId, newMovie);
-            return CreatedAtAction(nameof(GetById), new { id = movie!.Id }, movie);
+            return CreatedAtAction(nameof(GetById), new { movieId = movie!.Id }, movie);
         }
 
         [HttpPut("{userId}")]

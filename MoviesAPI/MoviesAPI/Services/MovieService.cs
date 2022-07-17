@@ -43,8 +43,8 @@ namespace MoviesAPI.Services
                                 .Include(m => m.Images)
                                 .AsNoTracking()
                                 .Where(m => m.Availability == true)
+                                .OrderBy(m => m.Title)
                                 .ToList()
-
                                 .Take(numberOfResults);
             }
 
@@ -52,6 +52,7 @@ namespace MoviesAPI.Services
                                 .Include(m => m.Images)
                                 .AsNoTracking()
                                 .Where(m => m.Availability == availability)
+                                .OrderBy(m => m.Title)
                                 .ToList()
                                 .Take(numberOfResults);
         }
@@ -69,7 +70,7 @@ namespace MoviesAPI.Services
             return _context.Movies
                             .Include(m => m.Images)
                             .AsNoTracking()
-                            .Where(m => m.Title.ToLower().Contains(name))
+                            .Where(m => !String.IsNullOrEmpty(m.Title) && m.Title.ToLower().Contains(name))
                             .ToList();
         }
 
@@ -84,7 +85,6 @@ namespace MoviesAPI.Services
 
             _context.Movies.Add(newMovie);
             _context.SaveChanges();
-
             return newMovie;
         }
 

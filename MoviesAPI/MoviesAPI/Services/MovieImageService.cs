@@ -26,7 +26,6 @@ namespace MoviesAPI.Services
         {
             _context.MovieImages.Add(newMovieImage);
             _context.SaveChanges();
-
             return newMovieImage;
         }
 
