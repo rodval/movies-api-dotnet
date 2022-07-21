@@ -1,0 +1,51 @@
+﻿[
+  {
+    "id": 1,
+    "title": "Star Wars: Phantom Menace",
+    "description": "Star Wars episode 1",
+    "stock": 10,
+    "rentalPrice": 7.99,
+    "salePrice": 12,
+    "availability": true,
+    "images": [
+      {
+        "id": 2,
+        "urlImage": "https://static.wikia.nocookie.net/starwars/images/7/75/EPI_TPM_poster.png/revision/latest/scale-to-width-down/1000?cb=20130822171446"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Star Wars: Attack Of The Clones",
+    "description": "Star Wars episode 2",
+    "stock": 10,
+    "rentalPrice": 7.99,
+    "salePrice": 12,
+    "availability": true,
+    "images": [
+      {
+        "id": 3,
+        "urlImage": "https://static.wikia.nocookie.net/starwars/images/d/dd/Attack-Clones-Poster.jpg/revision/latest?cb=20180318125654"
+      },
+      {
+        "id": 4,
+        "urlImage": "https://static.wikia.nocookie.net/starwars/images/b/bf/Episodeiidvd.jpg/revision/latest/scale-to-width-down/1000?cb=20220701220121"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Star Wars: Revenge Of The Sith",
+    "description": "Star Wars episode 3",
+    "stock": 10,
+    "rentalPrice": 7.99,
+    "salePrice": 12,
+    "availability": true,
+    "images": [
+      {
+        "id": 5,
+        "urlImage": "https://static.wikia.nocookie.net/starwars/images/e/e7/EPIII_RotS_poster.png/revision/latest/scale-to-width-down/1000?cb=20130822174232"
+      }
+    ]
+  }
+]
