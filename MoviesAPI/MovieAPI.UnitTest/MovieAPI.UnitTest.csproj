@@ -26,12 +26,13 @@
     <ProjectReference Include="..\MoviesAPI\MoviesAPI.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Mocks\" />
-    <None Remove="Data\" />
     <None Remove="Microsoft.EntityFrameworkCore.InMemory" />
+    <None Remove="MoviesServiceValidatorcs" />
+    <None Remove="Services\" />
+    <None Remove="Controllers\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Mocks\" />
-    <Folder Include="Data\" />
+    <Folder Include="Services\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 </Project>
