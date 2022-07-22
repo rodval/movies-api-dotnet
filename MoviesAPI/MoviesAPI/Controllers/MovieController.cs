@@ -82,7 +82,7 @@ namespace MoviesAPI.Controllers
             }
         }
 
-        [HttpPut("{id}/addimage")]
+        [HttpPut("{userId}/addimage")]
         public IActionResult AddImage(int userId, int movieId, int imageId)
         {
             var movieToUpdate = _service.GetById(movieId);

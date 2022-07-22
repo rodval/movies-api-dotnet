@@ -17,11 +17,12 @@ namespace MovieAPI.UnitTest
                 .UseInMemoryDatabase(databaseName: "Movies")
                 .Options;
 
-            //Arrange
+            //Global Arrange
             using (var context = new MovieContext(options))
             {
                 if (context.Users.Any()
-                    && context.Movies.Any())
+                    && context.Movies.Any()
+                    && context.MovieImages.Any())
                 {
                     return;
                 }
@@ -77,8 +78,15 @@ namespace MovieAPI.UnitTest
                     }
                 };
 
+                var image = new MovieImage
+                {
+                    Id = 1,
+                    UrlImage = "https://theobjectivestandard.com/wp-content/uploads/2022/03/3-Idiots-Written-and-Directed-by-Rajkumar-Hirani.jpg"
+                };
+
                 context.Users.Add(user);
                 context.Movies.AddRange(movies);
+                context.MovieImages.Add(image);
                 context.SaveChanges();
             }
         }
@@ -197,6 +205,23 @@ namespace MovieAPI.UnitTest
 
                 //Assert
                 Assert.Null(movie);
+            }
+        }
+
+        [Fact]
+        public void AddMovieImage_ReturnNull()
+        {
+            using (var context = new MovieContext(options))
+            {
+                //Act
+                var movieRepository = new MovieService(context);
+                movieRepository.AddMovieImage(1, 1, 1);
+
+                var movie = movieRepository.GetById(1);
+
+                //Assert
+                Assert.NotNull(movie);
+                Assert.Single(movie.Images);
             }
         }
     }
