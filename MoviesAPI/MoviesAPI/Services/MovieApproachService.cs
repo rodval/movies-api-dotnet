@@ -19,6 +19,8 @@ namespace MoviesAPI.Services
         public MovieApproach? GetById(int id)
         {
             return _context.MovieApproaches
+                            .Include(m => m.User)
+                            .Include(m => m.Movie)
                             .AsNoTracking()
                             .SingleOrDefault(m => m.Id == id);
         }
