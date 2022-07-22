@@ -109,5 +109,21 @@ namespace MovieAPI.UnitTest
                 Assert.Equal(1, user.LikedMovies.Count);
             }
         }
+
+        [Fact]
+        public void UnlikedMovie_ReturnsUserLikedList()
+        {
+            using (var context = new MovieContext(options))
+            {
+                //Act
+                var userRepository = new UserService(context);
+                userRepository.UnlikedMovie(1, 1);
+                var user = userRepository.GetById(1);
+
+                //Assert
+                Assert.NotNull(user);
+                Assert.Equal(0, user.LikedMovies.Count);
+            }
+        }
     }
 }
