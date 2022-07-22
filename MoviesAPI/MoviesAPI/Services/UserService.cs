@@ -55,9 +55,9 @@ namespace MoviesAPI.Services
         public void UnlikedMovie(int UserId, int MovieId)
         {
             var userToUpdate = _context.Users.Find(UserId);
-            var movieToAdd = _context.Movies.Find(MovieId);
+            var movieToRemove = _context.Movies.Find(MovieId);
 
-            if (userToUpdate is null || movieToAdd is null)
+            if (userToUpdate is null || movieToRemove is null)
             {
                 throw new InvalidOperationException(Erros.NotFound);
             }
@@ -67,7 +67,7 @@ namespace MoviesAPI.Services
                 userToUpdate.LikedMovies = new List<Movie>();
             }
 
-            userToUpdate.LikedMovies.Remove(movieToAdd);
+            userToUpdate.LikedMovies.Remove(movieToRemove);
 
             _context.SaveChanges();
         }
