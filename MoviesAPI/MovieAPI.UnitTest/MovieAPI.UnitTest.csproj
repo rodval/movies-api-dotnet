@@ -19,17 +19,19 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MoviesAPI\MoviesAPI.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Utilities\" />
     <None Remove="Mocks\" />
+    <None Remove="Data\" />
+    <None Remove="Microsoft.EntityFrameworkCore.InMemory" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Utilities\" />
     <Folder Include="Mocks\" />
+    <Folder Include="Data\" />
   </ItemGroup>
 </Project>

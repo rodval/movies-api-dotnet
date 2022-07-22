@@ -6,6 +6,13 @@ namespace MovieAPI.UnitTest.Mocks
 {
     public class MovieServiceMock : IMovieService
     {
+        private readonly string _context;
+
+        public MovieServiceMock(string context)
+        {
+            _context = context;
+        }
+
         public void AddMovieImage(int userId, int MovieId, int MovieImageId)
         {
             throw new NotImplementedException();
