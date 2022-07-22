@@ -29,6 +29,7 @@ namespace MovieAPI.UnitTest
 
                 var user = new User
                 {
+                    Id = 1,
                     Name = "Rodrigo",
                     UserName = "rod",
                     Role = UserRoleType.Admin
@@ -98,7 +99,7 @@ namespace MovieAPI.UnitTest
             {
                 //Act
                 var movieRepository = new MovieService(context);
-                var movies = movieRepository.GetAllMovies(1,2,true);
+                IEnumerable<Movie>? movies = movieRepository.GetAllMovies(1,2,true);
 
                 //Assert
                 Assert.NotNull(movies);
