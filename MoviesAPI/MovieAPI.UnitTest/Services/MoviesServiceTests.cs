@@ -97,8 +97,10 @@ namespace MovieAPI.UnitTest
         {
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var movieRepository = new MovieService(context);
+
+                //Act
                 IEnumerable<Movie>? movies = movieRepository.GetAllMovies(1,2,true);
 
                 //Assert
@@ -112,8 +114,10 @@ namespace MovieAPI.UnitTest
         {
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var movieRepository = new MovieService(context);
+
+                //Act
                 var movies = movieRepository.GetById(1);
 
                 //Assert
@@ -127,8 +131,10 @@ namespace MovieAPI.UnitTest
         {
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var movieRepository = new MovieService(context);
+
+                //Act
                 IEnumerable<Movie>? movies = movieRepository.GetByName("toy story");
 
                 //Assert
@@ -154,8 +160,10 @@ namespace MovieAPI.UnitTest
 
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var movieRepository = new MovieService(context);
+
+                //Act
                 var newMovie = movieRepository.Create(1, movie);
 
                 //Assert
@@ -181,8 +189,10 @@ namespace MovieAPI.UnitTest
 
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var movieRepository = new MovieService(context);
+
+                //Act
                 movieRepository.Update(1, modifyMovie);
 
                 var movie = movieRepository.GetById(3);
@@ -198,8 +208,10 @@ namespace MovieAPI.UnitTest
         {
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var movieRepository = new MovieService(context);
+
+                //Act
                 movieRepository.Delete(1, 4);
 
                 var movie = movieRepository.GetById(4);
@@ -210,14 +222,15 @@ namespace MovieAPI.UnitTest
         }
 
         [Fact]
-        public void AddMovieImage_ReturnNull()
+        public void AddMovieImage_ReturnMovie()
         {
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var movieRepository = new MovieService(context);
-                movieRepository.AddMovieImage(1, 1, 1);
 
+                //Act
+                movieRepository.AddMovieImage(1, 1, 1);
                 var movie = movieRepository.GetById(1);
 
                 //Assert

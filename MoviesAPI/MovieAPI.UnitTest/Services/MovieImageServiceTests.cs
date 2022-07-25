@@ -49,8 +49,10 @@ namespace MovieAPI.UnitTest
         {
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var imageRepository = new MovieImageService(context);
+
+                //Act
                 var image = imageRepository.GetById(1);
 
                 //Assert
@@ -70,8 +72,10 @@ namespace MovieAPI.UnitTest
 
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var imageRepository = new MovieImageService(context);
+
+                //Act
                 var newImage = imageRepository.Create(image);
 
                 //Assert
@@ -84,8 +88,10 @@ namespace MovieAPI.UnitTest
         {
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var imageRepository = new MovieImageService(context);
+
+                //Act
                 imageRepository.Delete(2);
                 var image = imageRepository.GetById(2);
 

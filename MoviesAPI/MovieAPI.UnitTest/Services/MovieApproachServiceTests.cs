@@ -90,8 +90,10 @@ namespace MovieAPI.UnitTest
         {
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var approachRepository = new MovieApproachService(context);
+
+                //Act
                 var approach = approachRepository.GetAll(1);
 
                 //Assert
@@ -115,8 +117,10 @@ namespace MovieAPI.UnitTest
 
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var approachRepository = new MovieApproachService(context);
+
+                //Act
                 var newApproach = approachRepository.Create(1, 2, approach);
 
                 //Assert
@@ -141,8 +145,10 @@ namespace MovieAPI.UnitTest
 
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var approachRepository = new MovieApproachService(context);
+
+                //Act
                 approachRepository.Update(modifyApproach);
 
                 var approach = approachRepository.GetById(1);

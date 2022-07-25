@@ -59,8 +59,10 @@ namespace MovieAPI.UnitTest
         {
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var userRepository = new UserService(context);
+
+                //Act
                 var user = userRepository.GetById(1);
 
                 //Assert
@@ -83,8 +85,10 @@ namespace MovieAPI.UnitTest
 
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var userRepository = new UserService(context);
+
+                //Act
                 var newUser = userRepository.Create(user);
 
                 //Assert
@@ -99,8 +103,10 @@ namespace MovieAPI.UnitTest
         {
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var userRepository = new UserService(context);
+
+                //Act
                 userRepository.LikedMovie(1, 1);
                 var user = userRepository.GetById(1);
 
@@ -115,8 +121,10 @@ namespace MovieAPI.UnitTest
         {
             using (var context = new MovieContext(options))
             {
-                //Act
+                //Arrange
                 var userRepository = new UserService(context);
+
+                //Act
                 userRepository.UnlikedMovie(1, 1);
                 var user = userRepository.GetById(1);
 
